@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.easybuy.dao.product.ProductDao">
+	<select id="getProductList" resultType="Product" >
+		select id,name,description,price,stock,categoryLevel1Id,categoryLevel2Id,
+		categoryLevel3Id,fileName,isDelete 
+		from easybuy_product
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="proName!=null">
+				and name like CONCAT('%',#{proName},'%')
+			</if>
+			<if test="categoryId!=null">
+				 and (categoryLevel1Id = #{categoryId} 
+				 or categoryLevel2Id=#{categoryId} 
+				 or categoryLevel3Id=#{categoryId} )
+			</if>
+		</trim>
+		limit #{currentPageNo},#{pageSize}
+	</select>
+	
+	<select id="queryProductCount" resultType="int">
+		select count(*) count 
+		from easybuy_product 
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="proName!=null">
+				and name like CONCAT('%',#{proName},'%')
+			</if>
+			<if test="categoryId!=null">
+				 and (categoryLevel1Id = #{categoryId} 
+				 or categoryLevel2Id=#{categoryId} 
+				 or categoryLevel3Id=#{categoryId} )
+			</if>
+		</trim>
+	</select>
+</mapper>

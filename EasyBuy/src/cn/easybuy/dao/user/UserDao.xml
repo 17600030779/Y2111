@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.easybuy.dao.user.UserDao">
+	<select id="getUser" resultType="User">
+		select id,loginName,userName,
+		password,sex,identityCode,email,
+		mobile,type 
+		from easybuy_user
+	<trim prefix="where" prefixOverrides="and|or">
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="name!=null">
+			and loginName=#{name}
+		</if>
+	</trim>
+	</select>
+	<insert id="add" parameterType="User">
+		INSERT into easybuy_user
+		(loginName,userName,password,sex,identityCode,email,mobile)
+		 VALUES(#{loginName},#{userName},#{password},#{sex},
+		 #{identityCode},#{email},#{mobile})
+	</insert>
+	
+</mapper>

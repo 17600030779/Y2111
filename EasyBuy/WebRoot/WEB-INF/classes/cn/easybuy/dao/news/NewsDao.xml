@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.easybuy.dao.news.NewsDao">
+	<select id="queryNewsList" parameterType="NewsParams" resultType="News">
+		select id,title,content,createTime 
+		FROM easybuy_news 
+		<where>
+		<if test="title!=null">
+			and title like CONCAT('%',#{title},'%')
+		</if>
+		</where>
+		<if test="sort!=null">
+			order by #{sort}
+		</if>
+		<if test="page">
+			limit #{startIndex},#{pageSize}
+		</if>
+	</select>
+</mapper>
